@@ -7,7 +7,6 @@ namespace :ssh do
   task :setup, :roles => :gateway do
     upload_keys
     configure_sshd
-    install_ovh_ssh_key if ["ovh-rps", "ovh-dedie"].include?(hosting_provider)
     reload
   end
   
@@ -43,14 +42,6 @@ namespace :ssh do
   task :configure_sshd, :roles => :gateway do
     put render("sshd_config", binding), "sshd_config"
     sudo "mv sshd_config /etc/ssh/sshd_config"
-  end
-  
-  desc <<-DESC
-    Install OVH SSH Keys
-  DESC
-  task :install_ovh_ssh_key, :roles => :gateway do
-    sudo "wget ftp://ftp.ovh.net/made-in-ovh/cle-ssh-public/installer_la_cle.sh -O installer_la_cle.sh"
-    sudo "sh installer_la_cle.sh"
   end
   
   desc <<-DESC
