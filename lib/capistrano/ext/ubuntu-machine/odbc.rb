@@ -18,5 +18,18 @@ namespace :odbc do
     run "rm #{freetds}.tar.gz"
     run "rm -Rf #{freetds}"
   end
+  
+  desc "Install the ruby ODBC library"
+  task :install_rubyodbc, :roles => :app do
+    rubyodbc = "ruby-odbc-0.9996"
+    run "wget -nv http://www.ch-werner.de/rubyodbc/#{rubyodbc}.tar.gz"
+    run "tar xvzf #{rubyodbc}.tar.gz"
+    run "cd #{rubyodbc}"
+    run "cd #{rubyodbc} && ruby extconf.rb"
+    run "cd #{rubyodbc} && make"
+    run "cd #{rubyodbc} && sudo make install"
+    run "rm #{rubyodbc}.tar.gz"
+    run "rm -Rf #{rubyodbc}"
+  end
 
 end
