@@ -3,7 +3,7 @@ namespace :gems do
   ree_gem = "/opt/ruby-enterprise/bin/gem"
   desc "Install RubyGems"
   task :install_rubygems, :roles => :app do
-    run "wget http://rubyforge.org/frs/download.php/45905/rubygems-#{rubygem_version}.tgz"
+    run "wget -nv http://rubyforge.org/frs/download.php/45905/rubygems-#{rubygem_version}.tgz"
     run "tar xvzf rubygems-#{rubygem_version}.tgz"
     run "cd rubygems-#{rubygem_version} && sudo ruby setup.rb"
     sudo "ln -s /usr/bin/gem1.8 /usr/bin/gem"
