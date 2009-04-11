@@ -32,4 +32,15 @@ namespace :odbc do
     run "rm -Rf #{rubyodbc}"
   end
 
+  desc "Install FreeTDS/ODBC configuration files"
+  task :config_files, :roles => :app do
+    put render("odbc.ini", binding), "odbc.ini"
+    sudo "mv odbc.ini /etc/odbc.ini"
+    put render("odbcinst.ini", binding), "odbcinst.ini"
+    sudo "mv odbcinst.ini /etc/odbcinst.ini"
+    put render("freetds.conf", binding), "more_freetds.conf"
+    run "cat /etc/freetds/freetds.conf more_freetds.conf > freetds.conf"
+    sudo "mv freetds.conf /etc/freetds/freetds.conf"
+    run "rm more_freetds.conf"
+  end
 end

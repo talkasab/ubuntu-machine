@@ -114,5 +114,13 @@ namespace :apache do
       sudo "rm -Rf /home/#{user}/websites/#{server_name}"
       reload
     end
-  end  
+  end
+  
+  desc "Fix the mod_deflate configuration and activate it"
+  task :mod_deflate, :roles => :web do
+    put render("deflate.conf", binding), "deflate.conf"
+    sudo "mv deflate.conf /etc/apache2/mods-available/deflate.conf"
+    sudo "a2enmod deflate"
+    force_reload
+  end
 end
