@@ -55,4 +55,13 @@ namespace :gems do
     url = Capistrano::CLI.ui.ask("What source URL should we remove: ")
     sudo "#{ree_gem} sources --remove #{url}"
   end
+  
+  desc "Install a locally stored gem on the remote server"
+  task :install_local_gem, :roles => :app do
+    Dir.glob(File.join(default_local_files_path, '*.gem')).each {|s| puts File.basename(s) }
+    gemfile = Capistrano::CLI.ui.ask("What local gem file should we install: ")
+    upload File.join(default_local_files_path, gemfile), gemfile
+    sudo "#{ree_gem} install #{gemfile}"
+    run "rm #{gemfile}"
+  end
 end
