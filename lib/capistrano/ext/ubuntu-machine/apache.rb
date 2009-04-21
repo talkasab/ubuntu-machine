@@ -86,21 +86,11 @@ namespace :apache do
 
   desc "Create a new website"
   task :create_website, :roles => :web do
-    server_admin    = Capistrano::CLI.ui.ask("Server admin (#{default_server_admin}) if blank : ")
-    server_admin    = default_server_admin if server_admin.empty?
-    server_name     = Capistrano::CLI.ui.ask("Server name : ")
-    server_alias    = Capistrano::CLI.ui.ask("Server alias : ")
-    directory_index = Capistrano::CLI.ui.ask("Directory index (#{default_directory_index}) if blank : ")
-    directory_index = default_directory_index if directory_index.empty?
+    site_name     = Capistrano::CLI.ui.ask("Site name : ")
 
-    # Website skeleton
-    %w{backup cap cgi-bin logs private public tmp}.each { |d|
-      run "mkdir -p /home/#{user}/websites/#{server_name}/#{d}"
-    }
-    
-    put render("vhost", binding), server_name
-    sudo "mv #{server_name} /etc/apache2/sites-available/#{server_name}"
-    sudo "sudo a2ensite #{server_name}"
+    put render("vhost", binding), site_name
+    sudo "mv #{site_name} /etc/apache2/sites-available/#{site_name}"
+    sudo "sudo a2ensite #{site_name}"
     reload
   end
   
