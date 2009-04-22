@@ -8,6 +8,7 @@ end
 
 Capistrano::Configuration.instance.load {load("#{File.dirname(__FILE__)}/ubuntu-machine/apache.rb")}
 Capistrano::Configuration.instance.load {load("#{File.dirname(__FILE__)}/ubuntu-machine/aptitude.rb")}
+Capistrano::Configuration.instance.load {load("#{File.dirname(__FILE__)}/ubuntu-machine/beanstalk.rb")}
 Capistrano::Configuration.instance.load {load("#{File.dirname(__FILE__)}/ubuntu-machine/gems.rb")}
 Capistrano::Configuration.instance.load {load("#{File.dirname(__FILE__)}/ubuntu-machine/git.rb")}
 Capistrano::Configuration.instance.load {load("#{File.dirname(__FILE__)}/ubuntu-machine/sphinx.rb")}

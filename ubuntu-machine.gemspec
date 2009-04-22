@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
                 "lib/capistrano/ext/ubuntu-machine.rb", 
                 "lib/capistrano/ext/ubuntu-machine/apache.rb", 
                 "lib/capistrano/ext/ubuntu-machine/aptitude.rb", 
+                "lib/capistrano/ext/ubuntu-machine/beanstalk.rb", 
                 "lib/capistrano/ext/ubuntu-machine/gems.rb", 
                 "lib/capistrano/ext/ubuntu-machine/git.rb", 
                 "lib/capistrano/ext/ubuntu-machine/sphinx.rb", 
