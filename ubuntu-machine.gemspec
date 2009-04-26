@@ -36,6 +36,7 @@ Gem::Specification.new do |s|
                 "lib/capistrano/ext/ubuntu-machine/templates/passenger.load.erb", 
                 "lib/capistrano/ext/ubuntu-machine/templates/sshd_config.erb", 
                 "lib/capistrano/ext/ubuntu-machine/templates/vhost.erb", 
+                "lib/capistrano/ext/ubuntu-machine/templates/vhost_ssl.erb", 
                 "lib/capistrano/ext/ubuntu-machine/templates/deflate.conf.erb",
                 "lib/capistrano/ext/ubuntu-machine/templates/freetds.conf.erb",
                 "lib/capistrano/ext/ubuntu-machine/templates/odbc.ini.erb",

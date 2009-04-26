@@ -1,0 +1,16 @@
+<VirtualHost *:443>
+
+  ServerName  <%= server_name %>
+  DocumentRoot /var/apps/<%= site_name %>/current/public
+  RailsEnv production
+
+	SSLEngine On
+	SSLCertificateFile /etc/apache2/ssl/<%= site_file %>.crt
+	SSLCertificateKeyFile /etc/apache2/ssl/<%= site_file %>.key
+	SSLCertificateChainFile /etc/apache2/ssl/DigiCertCA.crt
+
+  <LocationMatch "\.(js|css)$">
+    SetOutputFilter DEFLATE
+  </LocationMatch>
+
+</VirtualHost>

@@ -96,12 +96,12 @@ namespace :apache do
   
   desc "Delete a website (! delete all file and folders)"
   task :delete_website, :roles => :web do
-    server_name = Capistrano::CLI.ui.ask("Server name you want to delete : ")
-    sure = Capistrano::CLI.ui.ask("Are you sure you want to delete #{server_name} and all its files? (y/n) : ")
+    site_name = Capistrano::CLI.ui.ask("Site name you want to delete : ")
+    sure = Capistrano::CLI.ui.ask("Are you sure you want to delete #{site_name} and all its files? (y/n) : ")
     if sure=="y"
-      sudo "sudo a2dissite #{server_name}"
-      sudo "rm /etc/apache2/sites-available/#{server_name}"
-      sudo "rm -Rf /home/#{user}/websites/#{server_name}"
+      sudo "sudo a2dissite #{site_name}"
+      sudo "rm /etc/apache2/sites-available/#{site_name}"
+      sudo "rm -Rf /home/#{user}/websites/#{site_name}"
       reload
     end
   end
@@ -111,6 +111,24 @@ namespace :apache do
     put render("deflate.conf", binding), "deflate.conf"
     sudo "mv deflate.conf /etc/apache2/mods-available/deflate.conf"
     sudo "a2enmod deflate"
+    force_reload
+  end
+  
+  desc "Setup SSL with certificate, active mod_ssl"
+  task :setup_ssl, :roles => :web do
+    site_name = Capistrano::CLI.ui.ask("Site name the certificate to upload is for : ")
+    domain_name = Capistrano::CLI.ui.ask("Domain name the certificate to upload is for : ")
+    site_file = "#{site_name}.#{domain_name}".gsub(/\./, '_')
+    ssl_cert_path = "/etc/apache2/ssl"
+    sudo "mkdir #{ssl_cert_path} || echo \"Directory #{ssl_cert_path} exists\""
+    ["#{site_file}.crt", "#{site_file}.key", "DigiCertCA.crt"].each do |filename|
+      upload File.join(default_local_files_path, filename), filename
+      sudo "mv #{filename} #{ssl_cert_path}"
+    end
+    sudo "a2enmod ssl"
+    put render("vhost_ssl", binding), "#{site_name}_ssl"
+    sudo "mv #{site_name}_ssl /etc/apache2/sites-available/#{site_name}_ssl"
+    sudo "sudo a2ensite #{site_name}_ssl"
     force_reload
   end
 end
