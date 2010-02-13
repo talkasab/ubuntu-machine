@@ -28,9 +28,12 @@ namespace :ruby do
 
   desc "Install Ruby Enterpise Edition"
   task :install_enterprise, :roles => :app do
+
+    # Packages
     sudo "apt-get install libssl-dev -y"
     sudo "apt-get install libreadline5-dev -y"
     
+    # Get an install
     run "test ! -d /opt/#{ruby_enterprise_version}"
     run "wget -nv #{ruby_enterprise_url}"
     run "tar xzvf #{ruby_enterprise_version}.tar.gz"
@@ -38,6 +41,8 @@ namespace :ruby do
     sudo "./#{ruby_enterprise_version}/installer --auto /opt/#{ruby_enterprise_version}"
     sudo "rm -rf #{ruby_enterprise_version}/"
     
+    # Kill the symlink (if it exists)
+    sudo "rm -f /opt/ruby-enterprise" 
     # create a "permanent" link to the current REE install
     sudo "ln -s /opt/#{ruby_enterprise_version} /opt/ruby-enterprise" 
     
@@ -45,6 +50,8 @@ namespace :ruby do
     run "cat /etc/environment > ~/environment.tmp"
     run 'echo PATH="/opt/ruby-enterprise/bin:$PATH" >> ~/environment.tmp'
     sudo 'mv ~/environment.tmp /etc/environment'
+    
+    upgrade_passenger
   end
   
   desc "Install Phusion Passenger"
